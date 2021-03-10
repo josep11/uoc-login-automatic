@@ -4,7 +4,8 @@
 // @version      0.2
 // @description  Automatització login
 // @author       You
-// @require		http://code.jquery.com/jquery-2.1.0.min.js
+// @require		http://code.jquery.com/jquery-latest.js
+// @require     https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js
 // @match       https://*.uoc.edu/*
 // // @match        https://www.uoc.edu/portal/*.html
 // @run-at  document-end
@@ -14,6 +15,10 @@
 (() => {
     'use strict';
 
+    const MAX_TRIES_LOGIN = 3;
+    
+    alert('updated from github');
+
     const iconTagGoToLoginPage = '.icon--campus';
     const loginPage = {
         usernameHandler: '#username',
@@ -21,16 +26,27 @@
         submitLoginHandler: '#fm1'
     };
 
-    function redirectToLoginPage() {
+    function redirectToLoginPage () {
         if ($(iconTagGoToLoginPage)) {
             $(iconTagGoToLoginPage).click();
         }
     };
 
-    function handleLoginPage() {
+    function handleLoginPage () {
+        //Cookies.remove("timesRetried");
+        let timesRetried = Cookies.get("timesRetried") || 0;
+
+        //console.log(timesRetried);
+
         if ($(loginPage.usernameHandler) && $(loginPage.submitLoginHandler)) {
 
-            setTimeout(() => {
+            if (timesRetried > MAX_TRIES_LOGIN){
+                return;
+            }
+            setTimeout(()=>{
+                var inThirtySec = new Date(new Date().getTime() + 30 * 1000);
+                Cookies.set("timesRetried", ++timesRetried, {expires: inThirtySec});
+
                 $(loginPage.submitLoginHandler).submit();
             }, 3000);
         }
