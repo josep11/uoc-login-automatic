@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         UOC Login Automatic
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.4
 // @description  Automatització login
 // @author       You
 // @require		http://code.jquery.com/jquery-latest.js
@@ -25,7 +25,7 @@
         submitButton: '#submitButton'
     };
 
-    function redirectToLoginPage() {
+    function redirectToLoginPage () {
         if ($(iconTagGoToLoginPage)) {
             $(iconTagGoToLoginPage).click();
         }
